@@ -1,19 +1,105 @@
 # SAGE: My Study Assistant & Guide Engine
 
 ## What is SAGE?
-[Explain in your own words what SAGE is and why you're building it]
+     SAGE, which stands for Study Assistant & Guide Engine, is a personalized AI-powered learning companion 
+designed to support students as they navigate coursework, concepts, and skill development in a structured 
+and reflective way. Conceptually, SAGE functions as a guided partner rather than a shortcut, helping 
+learners organize information, ask better questions, review material, and connect ideas across topics. 
+Instead of simply providing answers, SAGE is intended to scaffold learning by explaining concepts in context,
+offering study strategies, and reinforcing understanding through clarification and iteration. In this sense,
+SAGE embodies the core philosophy of modern AI-assisted education: augmenting human learning rather than 
+replacing human thinking.
+     I am building SAGE as an assignment in your CTS-113 (AI Fundamentals) course because it directly aligns 
+with the course’s stated learning objectives and instructional philosophy. CTS-113 emphasizes understanding
+foundational AI concepts, critically using generative AI tools, and creating a practical project that makes
+learning or daily work easier. SAGE satisfies all three goals simultaneously. It demonstrates my understanding 
+of how AI systems can be applied to real problems, showcases my ability to use AI as a purposeful tool rather 
+than a novelty, and results in a tangible artifact that improves the student learning experience. Rather than
+being an abstract exercise, SAGE is a functional system with a clearly defined audience and use case.
+From a pedagogical perspective, SAGE also reflects the course’s emphasis on becoming an “AI power user” instead
+of a passive consumer of technology. CTS-113 encourages students to think carefully about task suitability, prompt 
+design, and human-AI collaboration. By designing SAGE, I am practicing exactly that mindset: defining a narrow
+and appropriate role for AI, shaping its behavior through intentional prompts, and positioning it as a study aid
+that reinforces academic integrity. This mirrors the course’s AI partnership model, where AI tools are used to
+explain concepts, organize thinking, and support learning without doing the intellectual work for the student.
+    In my view, building SAGE is an especially strong assignment choice because it demonstrates maturity in how AI
+should be integrated into education. Rather than treating AI as an answer generator, SAGE treats AI as 
+infrastructure for learning, something that helps students reflect, plan, and engage more deeply with material.
+That design choice shows an understanding of both the strengths and limitations of AI systems, a theme emphasized 
+throughout the course readings and discussions. As an assignment, SAGE is not only compliant with CTS-113 requirements
+but exemplary, because it produces a meaningful, ethical, and reusable learning tool that embodies the course’s broader
+goals of critical thinking, responsible AI use, and practical application.
+
 
 ## How I'll Use SAGE This Semester
-[List 3-5 specific ways you plan to use AI tools to help with your studies]
+     I plan to use AI tools in several specific and intentional ways to support my studies while maintaining academic
+integrity and personal accountability for my learning.
+     First, I will use AI to help clarify difficult concepts after I have reviewed the course material. When a topic 
+does not fully make sense, I will ask AI to explain it in diverse ways or provide examples so I can deepen my 
+understanding rather than simply memorize information.
+     Second, I will use AI to help with study planning and organization. This includes breaking large assignments 
+into smaller, manageable tasks, creating study schedules, and organizing notes so I can stay on track and manage 
+my time more effectively across multiple courses.
+     Third, I will use AI for practice and self-assessment. I plan to generate practice questions, review prompts,
+and study guides based on specific topics so I can assess my understanding, identify gaps in my knowledge, and 
+focus my studying where it is most needed.
+    Fourth, I will use AI as a writing support tool, not a replacement for my own work. I will write my own drafts 
+and then use AI to help improve clarity, grammar, and structure, ensuring my submissions are clear, professional, 
+and well organized.
+    Finally, I will use AI as a learning partner for reflection and problem-solving. By talking through ideas, 
+exploring different approaches to assignments, and asking guided questions, I can strengthen my critical thinking 
+skills and become a more effective, independent learner.
+
 
 ## Tools I'm Using
-- **Primary**: [Your preferred AI tool] - [Why you chose it]
-- **Secondary**: [Backup tool] - [When you'll use this instead]
-- **For Special Tasks**: [Any specialized tools]
+Primary: ChatGPT – I chose this as my primary AI tool because it is flexible, reliable, and well suited for 
+studying, writing support, concept clarification, and structured reasoning. It allows me to ask follow-up 
+questions, refine explanations, and engage in iterative learning conversations, which aligns well with my 
+goal of using AI as a learning partner rather than a shortcut.
+
+Secondary: Google Gemini – I will use this as a backup tool when I want an alternative explanation, a 
+second perspective on a concept, or when comparing how different AI systems respond to the same prompt. 
+Using a secondary tool helps me think more critically about AI output instead of assuming one system is 
+always correct.
+
+For Special Tasks: Specialized or task-focused AI tools, for certain assignments, I may use tools designed 
+for specific purposes, such as image generation for creative projects, study-aid platforms for flashcards
+or quizzes, or AI-powered writing checkers for grammar and clarity. These tools will be used selectively 
+when they are better suited to a particular task than a general-purpose AI.
+
+•	Canva – Used for creating visuals, diagrams, infographics, and presentation graphics for assignments 
+that require a visual or creative component.
+•	DALL·E – Used for generating AI-created images when a project calls for original visuals, conceptual 
+illustrations, or creative experimentation with generative AI.
+•	Quizlet (AI-assisted features) – Used for creating flashcards, practice quizzes, and quick review sets
+to reinforce memorization and recall before exams.
+•	Grammarly – Used for grammar, clarity, and tone refinement after I have written my own drafts, ensuring
+submissions are polished and professional.
+•	GitHub (with AI assistance) – Used for documenting projects, reflections, and coursework artifacts, 
+supporting version control, organization, and professional portfolio development.
+
 
 ## Ground Rules for Working with AI
-[Write 3-5 personal guidelines for when/how you'll use AI ethically and effectively]
+I will use AI as a support tool for learning, not as a replacement for my own thinking or effort. I will 
+complete readings, lectures, and initial problem-solving on my own before turning to AI for clarification,
+reinforcement, or alternative explanations.
+
+I will be transparent and responsible about my AI use. When an assignment requires original thought or 
+reflection, I will ensure the ideas come from me and will only use AI for formatting, organization, or 
+language refinement if permitted by the assignment instructions.
+
+I will use AI to improve understanding, not to bypass challenges. If I am struggling with a concept or 
+task, I will ask AI to guide my reasoning, explain underlying principles, or suggest study strategies 
+rather than asking it to produce final answers or solutions.
+
+I will critically evaluate AI output instead of accepting it at face value. I will verify important 
+information using course materials or trusted sources and treat AI responses as suggestions that require 
+judgment, not as authoritative facts.
+
+I will always respect academic integrity and course policies. If an instructor restricts or prohibits AI 
+use for a specific assignment, I will follow those guidelines and rely solely on my own work, using AI 
+only when it is explicitly allowed and appropriate.
 
 ---
-*Created: [Date]*  
-*Last Updated: [Date]*
+*Created: 22Jan2026*  
+*Last Updated: @@Jan2026*

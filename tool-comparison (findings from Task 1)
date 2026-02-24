@@ -1,6 +1,6 @@
 # AI Tool Comparison - Week 2
 
-## Test Date: [Today's date]
+## Test Date: 22Jan2025
 
 ## Tools Tested
 1. Gemini 2.5 Flash
@@ -10,21 +10,80 @@
 ## Test Results
 
 ### Prompt 1: Simple Explanation Task
-**Prompt**: [Paste prompt]
+**Prompt**: Explain what artificial intelligence is to someone who has never heard of it before. Keep it under 100 words.
 
-| Tool | Response Time | Quality | Notes |
-|------|---------------|---------|-------|
-| Gemini | [fast/medium/slow] | [score/5] | [Your notes] |
-| Claude | [fast/medium/slow] | [score/5] | [Your notes] |
-| ChatGPT | [fast/medium/slow] | [score/5] | [Your notes] |
+| Tool    | Response Time | Quality ( /5 ) | Notes                                                                                                                                  |
+| ------- | ------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Gemini  | Fast          | 4 / 5          | Clear, concise, and accurate explanation. Stayed well within word limit but felt generic and informational rather than conversational. |
+| Claude  | Medium        | 5 / 5          | Approachable and well-framed for a true beginner. Strong clarity and tone without oversimplification.                                  |
+| ChatGPT | Medium        | 3 / 5          | Technically correct but more abstract. Less accessible for someone with no prior exposure to AI concepts.                              |
 
-[Repeat for all 4 test prompts]
+---
 
-## Comparative Analysis
-[Write 2-3 paragraphs comparing the tools. Which excelled at what? 
- Which would you use for which tasks? Why?]
+### Prompt 2: Creative Task
+**Prompt:** Write a haiku about debugging code at 2 AM.
+
+| Tool    | Response Time | Quality ( /5 ) | Notes                                                                              |
+| ------- | ------------- | -------------- | ---------------------------------------------------------------------------------- |
+| Gemini  | Fast          | 3 / 5          | Correct haiku structure but minimal imagery and emotional depth.                   |
+| Claude  | Medium        | 5 / 5          | Vivid, expressive, and emotionally resonant. Strong sense of mood and persistence. |
+| ChatGPT | Medium        | 4 / 5          | Solid and relevant haiku. Creative but more formulaic than Claude’s response.      |
+
+---
+
+### Prompt 3: Information Retrieval
+**Prompt:** List 5 key differences between machine learning and traditional programming. Format as a comparison table.
+
+| Tool    | Response Time | Quality ( /5 ) | Notes                                                                         |
+| ------- | ------------- | -------------- | ----------------------------------------------------------------------------- |
+| Gemini  | Fast          | 5 / 5          | Excellent table structure with precise terminology and clear contrasts.       |
+| Claude  | Medium        | 4 / 5          | Accurate and thoughtful but slightly more verbose than necessary for a table. |
+| ChatGPT | Medium        | 4 / 5          | Correct and readable comparison, though explanations were more generic.       |
+
+---
+
+### Prompt 4: Problem-Solving
+**Prompt:** Create a 30-day GitHub learning plan with daily tasks under 30 minutes.
+
+| Tool    | Response Time | Quality ( /5 ) | Notes                                                                                  |
+| ------- | ------------- | -------------- | -------------------------------------------------------------------------------------- |
+| Gemini  | Fast          | 4 / 5          | Well-organized and concise. Felt checklist-driven rather than conceptually scaffolded. |
+| Claude  | Medium        | 5 / 5          | Strong instructional pacing with learner-focused progression and practical emphasis.   |
+| ChatGPT | Medium        | 3 / 5          | Met basic requirements but lacked intentional sequencing and conceptual reinforcement. |
+
+---
+
+## Comparative Analysis (2–3 Paragraphs)
+
+Across all four prompts, clear strengths and trade-offs emerged between the three AI tools. Gemini 2.5 Flash consistently 
+demonstrated the fastest response times and the strongest performance on structured, information-heavy tasks. Its comparison 
+tables and concise explanations were precise and well-formatted, making it especially effective for rapid experimentation, 
+factual retrieval, and documentation-oriented work. However, its creative output and instructional scaffolding felt mechanical,
+suggesting that Gemini prioritizes efficiency and structure over expressiveness or pedagogical nuance.
+
+Claude distinguished itself through answer quality and tone rather than speed. While responses took slightly longer to generate,
+the outputs were consistently thoughtful, well-reasoned, and learner-centered. Claude performed best on the creative haiku and 
+the 30-day GitHub learning plan, where clarity, pacing, and human-like reasoning mattered most. Its explanations felt intentional
+rather than transactional, which makes it particularly well-suited for writing, reflection, creative tasks, and guided learning 
+scenarios where understanding is prioritized over speed.
+
+ChatGPT 3.5 functioned as a capable generalist but did not strongly outperform the other tools in any single category. Its 
+responses were accurate and usable across all prompts, though often more generic and less refined. Creative outputs followed 
+predictable patterns, and problem-solving responses lacked the depth seen in Claude’s work. Despite these limitations, ChatGPT 
+3.5 remains a reliable baseline assistant that can support a wide range of tasks when specialized strengths are not required.
+
+**Tool selection takeaway:** Gemini is ideal for speed and structure, Claude excels at reasoning and instructional quality, and 
+ChatGPT 3.5 provides dependable all-purpose support.
 
 ## My Choice for Primary Tool
-**Tool**: [Your selection]  
-**Reasoning**: [Why you picked this tool]  
-**Backup Plan**: [What you'll do when you hit rate limits]
+**Tool**: ChatGPT  
+
+**Reasoning**: I selected ChatGPT as my primary tool because it provides the greatest flexibility and control over how I structure,
+refine, and iteratively modify my prompts. As a paid subscriber, I value the ability to adjust inputs, revisit responses, and 
+progressively shape outputs to better match academic and professional requirements. ChatGPT performs reliably across explanation,
+creative, information retrieval, and problem-solving tasks, making it a versatile day-to-day assistant. While other tools may 
+excel in specific areas, ChatGPT’s consistency and adaptability make it the most practical choice for sustained coursework use.  
+
+**Backup Plan**: When I encounter rate limits or need faster, highly structured outputs, I will switch to Gemini 2.5 Flash for 
+efficiency and clean formatting. For tasks that benefit from stronger narrative tone, creativity, or guided learning structure,
+I will use Claude as a secondary support tool.
