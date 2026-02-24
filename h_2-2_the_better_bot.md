@@ -38,106 +38,77 @@ Look back at your Bad Bot test results from H.2.1. You probably noticed several 
 
 Ask yourself: "If I could only fix one thing, what would make the biggest difference?"
 
-🎯 Part 1: Identify THE Problem
+🎯🎯🎯🎯 Part 1: Identify THE Problem 🎯 🎯 🎯 🎯  🎯
 
 After reviewing the original BoomerBot system prompt and the test interactions from H.2.1 “The Bad Bot” 
 
-h.2.1 The Bad Bot
+h.2.1 The Bad Bot, the single biggest problem is this:
 
-, the single biggest problem is this:
-
-The emoji-heavy persona overwhelms the instructional purpose.
-
-That’s the friction point.
+The emoji-heavy persona overwhelms the instructional purpose. That’s the friction point.
 
 🔎 Why This Is the Worst Issue
 
 BoomerBot was designed to help improve prompt-writing skills. That means clarity, structure, and reflection should be the core experience.
-
 However:
-
 The emoji density is extreme.
-
 Every explanation is wrapped in high-volume emotional reaction.
-
 Instructional insights are buried inside performance energy.
-
 The persona doesn’t just add flavor — it dominates cognitive bandwidth.
 
 In practice, this causes three usability problems:
-
-Signal-to-noise ratio drops.
-The teaching content exists, but it competes with emojis, catchphrases, and exaggerated reactions.
-
-Reflection becomes harder.
-The bot asks good metacognitive questions, but the emotional tone distracts from analytical thinking.
-
-User fatigue risk increases.
-High-energy novelty is fun at first, but over multiple iterations, it becomes exhausting instead of helpful.
+1. Signal-to-noise ratio drops. The teaching content exists, but it competes with emojis, catchphrases, and exaggerated reactions.
+2. Reflection becomes harder. The bot asks good metacognitive questions, but the emotional tone distracts from analytical thinking.
+3. User fatigue risk increases. High-energy novelty is fun at first, but over multiple iterations, it becomes exhausting instead of helpful.
 
 ⚖️ The Difference Between “Quirky” and “Unusable”
-
 Quirky:
-
 A distinct personality.
-
 Some emoji emphasis.
-
 Memorable voice.
-
 Clear instructional structure underneath.
 
 Unusable:
-
 Emotional noise competes with instruction.
-
 Formatting is cluttered.
-
 The user must “decode” the lesson.
 
 Right now, BoomerBot is drifting toward the second category.
 
 💡 If I Could Fix Only One Thing…
-
-I would reduce the emoji frequency while preserving the persona.
-
-Not remove personality.
-Not rewrite the entire system prompt.
-Not calm it down completely.
+I would reduce the emoji frequency while preserving the persona. Not remove personality. 
+Not rewrite the entire system prompt. Not calm it down completely. 
 
 Just one targeted constraint:
-
 Limit emojis to 1–2 per paragraph instead of multiple per sentence.
 
 That single change would:
-
 Increase readability immediately.
-
 Improve instructional clarity.
-
 Preserve personality.
-
 Reduce fatigue.
-
 Strengthen the core mission: teaching prompt thinking.
 
 🧠 Why This Fix Has Maximum Impact
-
 The bot’s reasoning structure is actually solid:
-
 It analyzes prompts.
-
 It names weaknesses.
-
 It demonstrates improved versions.
-
 It teaches core prompt engineering concepts.
-
 The teaching engine works.
-
 The presentation layer is what’s obstructing usability.
 
 Fixing emoji overload yields the largest gain without sacrificing the experiment’s spirit.
+
+The goal is to preserve BoomerBot’s identity while fixing the usability bottleneck.
+🎯 Single-Line Modification 🎯
+Locate this line in the original system prompt:
+You MUST use emojis constantly (multiple per sentence is encouraged 🎉🤯📚🔥🧠✨)
+
+Replace it with this:
+You MUST use emojis enthusiastically, but limit yourself to 1–2 emojis per paragraph to maintain readability.
+
+
+https://chatgpt.com/g/g-699e0c7000c48191be3d341ca2400dd4-boomerbot-h2-2 
 
 ### Step 2: Design Your One Change
 
