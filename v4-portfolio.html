@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Prompt Quality Analyzer MVP</title>
+  <style>
+    /* ==========================================
+       AI Prompt Quality Analyzer MVP
+       Single-file portfolio-ready web app
+       HTML + CSS + JavaScript only
+    ========================================== */
+
+    :root {
+      --bg: #f3f6fb;
+      --panel: #ffffff;
+      --panel-alt: #f8fafc;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d5dbe5;
+      --accent: #1d4ed8;
+      --accent-dark: #1e40af;
+      --accent-soft: #dbeafe;
+      --good-bg: #ecfdf5;
+      --good-text: #065f46;
+      --good-border: #a7f3d0;
+      --warn-bg: #fffbeb;
+      --warn-text: #92400e;
+      --warn-border: #fde68a;
+      --weak-bg: #fef2f2;
+      --weak-text: #991b1b;
+      --weak-border: #fecaca;
+      --shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+      --radius-sm: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(29, 78, 216, 0.07), transparent 25%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 28px 18px 56px;
+    }
+
+    .hero,
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(213, 219, 229, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 2.2rem;
+      line-height: 1.15;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      max-width: 860px;
+      font-size: 1.03rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 0.9fr;
+      gap: 18px;
+      align-items: start;
+      margin-top: 22px;
+    }
+
+    .mini-card {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .mini-card h2 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .mini-card ol,
+    .mini-card ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .mini-card li + li {
+      margin-top: 6px;
+    }
+
+    .panel {
+      padding: 24px;
+      margin-bottom: 22px;
+    }
+
+    .input-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .input-header h2 {
+      margin: 0 0 6px;
+      font-size: 1.4rem;
+    }
+
+    .input-header p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .textarea-wrap {
+      position: relative;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 210px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.13);
+    }
+
+    .field-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button {
+      appearance: none;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.08s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #f8fafc;
+    }
+
+    .status {
+      margin-top: 14px;
+      display: none;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-size: 0.97rem;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.error {
+      background: var(--weak-bg);
+      border-color: var(--weak-border);
+      color: var(--weak-text);
+    }
+
+    .status.info {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      color: #1e3a8a;
+    }
+
+    .sample-prompts {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+
+    .chip:hover {
+      background: #f8fafc;
+      border-color: #b9c2d0;
+    }
+
+    .results {
+      display: none;
+    }
+
+    .results.show {
+      display: block;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .results-header h2 {
+      margin: 0;
+      font-size: 1.45rem;
+    }
+
+    .score-wrap {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .score-card,
+    .summary-card,
+    .feedback-card,
+    .improved-card {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .overall-score {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .overall-score .score-number {
+      font-size: 2.7rem;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--accent);
+    }
+
+    .overall-score .score-label {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .progress {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #60a5fa 0%, #1d4ed8 100%);
+      transition: width 0.35s ease;
+    }
+
+    .score-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .summary-card h3,
+    .feedback-card h3,
+    .improved-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.08rem;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .category-card {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .category-card h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .rating-pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-bottom: 8px;
+    }
+
+    .strong {
+      background: var(--good-bg);
+      color: var(--good-text);
+      border: 1px solid var(--good-border);
+    }
+
+    .moderate {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+      border: 1px solid var(--warn-border);
+    }
+
+    .weak {
+      background: var(--weak-bg);
+      color: var(--weak-text);
+      border: 1px solid var(--weak-border);
+    }
+
+    .category-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .feedback-card ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .feedback-card li + li {
+      margin-top: 8px;
+    }
+
+    .feedback-card.works {
+      background: var(--good-bg);
+      border-color: var(--good-border);
+    }
+
+    .feedback-card.weaknesses {
+      background: var(--weak-bg);
+      border-color: var(--weak-border);
+    }
+
+    .feedback-card.suggestions {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+
+    .improved-card pre {
+      margin: 0;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 14px;
+      padding: 16px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.95rem;
+      border: 1px solid #1e293b;
+      min-height: 140px;
+    }
+
+    .copy-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .copy-status {
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .score-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 18px 14px 36px;
+      }
+
+      .hero,
+      .panel {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <div class="eyebrow">Portfolio MVP</div>
+      <h1>AI Prompt Quality Analyzer</h1>
+      <p class="lead">
+        This browser-based tool helps students and beginner AI users improve prompt writing. It analyzes a prompt using
+        five prompt-quality categories, explains what works, identifies weak areas, and generates an improved version
+        that is easier to reuse in another AI system.
+      </p>
+
+      <div class="hero-grid">
+        <div class="mini-card">
+          <h2>How to use this tool</h2>
+          <ol>
+            <li>Type or paste a prompt into the text area.</li>
+            <li>Click <strong>Analyze Prompt</strong>.</li>
+            <li>Review the overall score, category ratings, strengths, weaknesses, and suggestions.</li>
+            <li>Copy the improved prompt and test it in your preferred AI tool.</li>
+          </ol>
+        </div>
+
+        <div class="mini-card">
+          <h2>What this MVP checks</h2>
+          <ul>
+            <li>Clarity</li>
+            <li>Specificity</li>
+            <li>Role Assignment</li>
+            <li>Constraints</li>
+            <li>Output Format</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="inputHeading">
+      <div class="input-header">
+        <div>
+          <h2 id="inputHeading">Enter a prompt to analyze</h2>
+          <p>Use your own prompt or start with a sample prompt below.</p>
+        </div>
+      </div>
+
+      <div class="textarea-wrap">
+        <label for="promptInput" class="sr-only" style="position:absolute;left:-9999px;">Prompt input</label>
+        <textarea
+          id="promptInput"
+          placeholder="Example: Explain phishing awareness training for first-year college students and present the answer as a short bulleted list."
+        ></textarea>
+      </div>
+
+      <div class="field-meta">
+        <span id="charCount">0 characters</span>
+        <span>Beginner-friendly, rule-based feedback with no API required</span>
+      </div>
+
+      <div class="controls">
+        <button id="analyzeBtn" class="btn-primary">Analyze Prompt</button>
+        <button id="clearBtn" class="btn-secondary" type="button">Clear</button>
+      </div>
+
+      <div id="statusMessage" class="status info" role="status" aria-live="polite"></div>
+
+      <div class="sample-prompts" aria-label="Sample prompts">
+        <button class="chip" type="button" data-sample="Write a paragraph about cybersecurity.">Sample: Too broad</button>
+        <button class="chip" type="button" data-sample="Act as a cybersecurity instructor. Explain phishing to first-year college students in 5 bullet points using simple language.">Sample: Strong prompt</button>
+        <button class="chip" type="button" data-sample="Create a professional email to announce a lab maintenance window for students. Keep it under 120 words and format it with a subject line plus body.">Sample: Email prompt</button>
+      </div>
+    </section>
+
+    <section id="results" class="panel results" aria-labelledby="resultsHeading">
+      <div class="results-header">
+        <h2 id="resultsHeading">Analysis Results</h2>
+        <span class="copy-status" id="analysisTime"></span>
+      </div>
+
+      <div class="score-wrap">
+        <div class="score-card">
+          <div class="overall-score">
+            <span id="overallScore" class="score-number">0</span>
+            <span class="score-label">/ 100</span>
+          </div>
+          <div class="progress" aria-label="Overall prompt score">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <p id="scoreSummary" class="score-note">Your score summary will appear here.</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Summary</h3>
+          <p id="summaryText">
+            The app will summarize the prompt quality here after analysis.
+          </p>
+        </div>
+      </div>
+
+      <div id="categoryGrid" class="category-grid"></div>
+
+      <div class="feedback-grid">
+        <div class="feedback-card works">
+          <h3>What works</h3>
+          <ul id="strengthsList"></ul>
+        </div>
+
+        <div class="feedback-card weaknesses">
+          <h3>What is missing or weak</h3>
+          <ul id="weaknessesList"></ul>
+        </div>
+
+        <div class="feedback-card suggestions">
+          <h3>Suggestions for improvement</h3>
+          <ul id="suggestionsList"></ul>
+        </div>
+      </div>
+
+      <div class="improved-card">
+        <div class="copy-row">
+          <h3>Improved Prompt</h3>
+          <div>
+            <button id="copyBtn" class="btn-secondary" type="button">Copy Improved Prompt</button>
+            <span id="copyStatus" class="copy-status"></span>
+          </div>
+        </div>
+        <pre id="improvedPrompt">Your improved prompt will appear here after analysis.</pre>
+      </div>
+    </section>
+
+    <footer>
+      Built as a single-file MVP using embedded HTML, CSS, and JavaScript.
+    </footer>
+  </main>
+
+  <script>
+    /* ==========================================
+       DOM References
+    ========================================== */
+    const promptInput = document.getElementById("promptInput");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const statusMessage = document.getElementById("statusMessage");
+    const charCount = document.getElementById("charCount");
+    const results = document.getElementById("results");
+    const categoryGrid = document.getElementById("categoryGrid");
+    const strengthsList = document.getElementById("strengthsList");
+    const weaknessesList = document.getElementById("weaknessesList");
+    const suggestionsList = document.getElementById("suggestionsList");
+    const improvedPrompt = document.getElementById("improvedPrompt");
+    const copyBtn = document.getElementById("copyBtn");
+    const copyStatus = document.getElementById("copyStatus");
+    const overallScore = document.getElementById("overallScore");
+    const progressBar = document.getElementById("progressBar");
+    const summaryText = document.getElementById("summaryText");
+    const scoreSummary = document.getElementById("scoreSummary");
+    const analysisTime = document.getElementById("analysisTime");
+
+    /* ==========================================
+       Event Listeners
+    ========================================== */
+    promptInput.addEventListener("input", updateCharacterCount);
+    analyzeBtn.addEventListener("click", handleAnalyze);
+    clearBtn.addEventListener("click", clearAll);
+    copyBtn.addEventListener("click", copyImprovedPrompt);
+
+    document.querySelectorAll("[data-sample]").forEach(button => {
+      button.addEventListener("click", () => {
+        promptInput.value = button.dataset.sample;
+        updateCharacterCount();
+        showStatus("Sample prompt loaded. Click Analyze Prompt to test it.", "info");
+        promptInput.focus();
+      });
+    });
+
+    updateCharacterCount();
+
+    /* ==========================================
+       Main Controller
+    ========================================== */
+    function handleAnalyze() {
+      const prompt = promptInput.value.trim();
+
+      if (!prompt) {
+        showStatus("Please enter a prompt before running the analysis.", "error");
+        results.classList.remove("show");
+        return;
+      }
+
+      if (prompt.length < 8) {
+        showStatus("That prompt is extremely short. Please add a little more detail so the analyzer can give useful feedback.", "error");
+        results.classList.remove("show");
+        return;
+      }
+
+      try {
+        const analysis = analyzePrompt(prompt);
+        renderResults(analysis, prompt);
+        showStatus("Analysis complete. Review the feedback below.", "info");
+      } catch (error) {
+        console.error(error);
+        showStatus("Something unexpected happened during analysis. Please revise the prompt and try again.", "error");
+        results.classList.remove("show");
+      }
+    }
+
+    function clearAll() {
+      promptInput.value = "";
+      updateCharacterCount();
+      results.classList.remove("show");
+      improvedPrompt.textContent = "Your improved prompt will appear here after analysis.";
+      copyStatus.textContent = "";
+      showStatus("The form has been cleared.", "info");
+      promptInput.focus();
+    }
+
+    /* ==========================================
+       Analyzer
+       Rule-based logic for MVP feedback
+    ========================================== */
+    function analyzePrompt(prompt) {
+      const lower = prompt.toLowerCase();
+      const words = prompt.split(/\s+/).filter(Boolean);
+      const wordCount = words.length;
+
+      const categories = {
+        clarity: evaluateClarity(prompt, lower, wordCount),
+        specificity: evaluateSpecificity(lower, wordCount),
+        roleAssignment: evaluateRoleAssignment(lower),
+        constraints: evaluateConstraints(lower),
+        outputFormat: evaluateOutputFormat(lower)
+      };
+
+      const strengths = [];
+      const weaknesses = [];
+      const suggestions = [];
+
+      Object.values(categories).forEach(category => {
+        if (category.rating === "Strong") {
+          strengths.push(category.positive);
+        } else if (category.rating === "Moderate") {
+          weaknesses.push(category.negative);
+          suggestions.push(category.suggestion);
+        } else {
+          weaknesses.push(category.negative);
+          suggestions.push(category.suggestion);
+        }
+      });
+
+      if (wordCount >= 18) {
+        strengths.push("The prompt includes enough detail to support a more grounded response.");
+      } else if (wordCount < 12) {
+        weaknesses.push("The prompt is fairly short, which may cause the AI to make assumptions.");
+        suggestions.push("Add more context about the audience, purpose, or desired depth.");
+      }
+
+      const score = calculateOverallScore(categories);
+      const summary = createSummary(score, categories);
+      const improved = buildImprovedPrompt(prompt, categories);
+
+      return {
+        categories,
+        strengths: uniqueList(strengths),
+        weaknesses: uniqueList(weaknesses),
+        suggestions: uniqueList(suggestions),
+        score,
+        summary,
+        improvedPrompt: improved
+      };
+    }
+
+    /* ==========================================
+       Category Evaluation Functions
+    ========================================== */
+    function evaluateClarity(prompt, lower, wordCount) {
+      const taskVerbs = /\b(write|create|summarize|analyze|explain|compare|generate|list|draft|design|outline|describe|compose)\b/i.test(prompt);
+      const vagueTerms = /\b(stuff|things|something|whatever|maybe)\b/i.test(lower);
+      const clearTask = taskVerbs && wordCount >= 8 && !vagueTerms;
+
+      let rating = "Weak";
+      if (clearTask) rating = "Strong";
+      else if ((taskVerbs && wordCount >= 5) || !vagueTerms) rating = "Moderate";
+
+      return {
+        name: "Clarity",
+        rating,
+        positive: "The prompt communicates a recognizable task with reasonably clear wording.",
+        negative: "The task is not clearly defined, so the AI may misunderstand the objective.",
+        suggestion: "Use a direct action verb and clearly state what you want the AI to do.",
+        explanation:
+          rating === "Strong"
+            ? "The task is clearly stated."
+            : rating === "Moderate"
+            ? "The task is somewhat clear but could be more direct."
+            : "The task needs clearer wording."
+      };
+    }
+
+    function evaluateSpecificity(lower, wordCount) {
+      const detailSignals = [
+        "for", "about", "because", "using", "include", "focus on", "audience",
+        "context", "example", "examples", "steps", "details", "beginner", "student"
+      ];
+
+      let hits = 0;
+      detailSignals.forEach(signal => {
+        if (lower.includes(signal)) hits++;
+      });
+
+      let rating = "Weak";
+      if (wordCount >= 14 && hits >= 2) rating = "Strong";
+      else if (wordCount >= 9 || hits >= 1) rating = "Moderate";
+
+      return {
+        name: "Specificity",
+        rating,
+        positive: "The prompt provides useful detail that helps narrow the response.",
+        negative: "The prompt is too broad and leaves important details unstated.",
+        suggestion: "Add context, topic boundaries, audience details, or examples to narrow the response.",
+        explanation:
+          rating === "Strong"
+            ? "The prompt includes clear supporting detail."
+            : rating === "Moderate"
+            ? "The prompt has some detail, but more context would help."
+            : "The prompt is too general."
+      };
+    }
+
+    function evaluateRoleAssignment(lower) {
+      const explicitRolePatterns = [
+        "you are a", "you are an", "act as a", "act as an", "assume the role of",
+        "as a teacher", "as an instructor", "as a consultant", "as a coach",
+        "as an editor", "as a developer", "as a recruiter"
+      ];
+
+      const genericRoleWords = /\b(expert|teacher|instructor|consultant|coach|editor|developer|analyst)\b/;
+      const explicitRole = explicitRolePatterns.some(pattern => lower.includes(pattern));
+      const genericRole = genericRoleWords.test(lower);
+
+      let rating = "Weak";
+      if (explicitRole) rating = "Strong";
+      else if (genericRole) rating = "Moderate";
+
+      return {
+        name: "Role Assignment",
+        rating,
+        positive: "The prompt assigns a clear role or perspective that can guide the response.",
+        negative: "The prompt does not define a useful role or perspective for the AI.",
+        suggestion: "Add an explicit role such as 'Act as a cybersecurity instructor' or 'You are a hiring manager.'",
+        explanation:
+          rating === "Strong"
+            ? "A clear role is explicitly assigned."
+            : rating === "Moderate"
+            ? "A role is implied, but not clearly assigned."
+            : "No role is assigned."
+      };
+    }
+
+    function evaluateConstraints(lower) {
+      const constraintSignals = [
+        "under", "within", "at least", "no more than", "maximum", "minimum",
+        "must", "do not", "don't", "avoid", "only", "exactly", "limit", "keep it"
+      ];
+
+      let hits = 0;
+      constraintSignals.forEach(signal => {
+        if (lower.includes(signal)) hits++;
+      });
+
+      let rating = "Weak";
+      if (hits >= 2) rating = "Strong";
+      else if (hits === 1) rating = "Moderate";
+
+      return {
+        name: "Constraints",
+        rating,
+        positive: "The prompt includes boundaries that help control the response.",
+        negative: "The prompt lacks constraints, so the output may be too broad or inconsistent.",
+        suggestion: "Add limits such as length, tone, required elements, or exclusions.",
+        explanation:
+          rating === "Strong"
+            ? "The prompt includes useful boundaries."
+            : rating === "Moderate"
+            ? "The prompt includes one constraint, but more could help."
+            : "The prompt needs clearer boundaries."
+      };
+    }
+
+    function evaluateOutputFormat(lower) {
+      const strongFormatSignals = [
+        "bullet points", "bulleted list", "numbered list", "table", "json",
+        "markdown", "subject line", "headings", "sections", "step-by-step"
+      ];
+
+      const lighterFormatSignals = [
+        "list", "paragraph", "format", "outline", "email", "report"
+      ];
+
+      const strongHit = strongFormatSignals.some(signal => lower.includes(signal));
+      const lightHit = lighterFormatSignals.some(signal => lower.includes(signal));
+
+      let rating = "Weak";
+      if (strongHit) rating = "Strong";
+      else if (lightHit) rating = "Moderate";
+
+      return {
+        name: "Output Format",
+        rating,
+        positive: "The prompt tells the AI how the answer should be structured.",
+        negative: "The prompt does not specify a clear output format.",
+        suggestion: "Specify a format such as bullet points, a table, short paragraphs, or numbered steps.",
+        explanation:
+          rating === "Strong"
+            ? "The output format is clearly specified."
+            : rating === "Moderate"
+            ? "The prompt hints at a format, but it could be clearer."
+            : "The output format is missing."
+      };
+    }
+
+    /* ==========================================
+       Scoring and Summary
+    ========================================== */
+    function calculateOverallScore(categories) {
+      const scoreMap = { Strong: 20, Moderate: 12, Weak: 5 };
+      let total = 0;
+
+      Object.values(categories).forEach(category => {
+        total += scoreMap[category.rating] || 0;
+      });
+
+      return total;
+    }
+
+    function createSummary(score, categories) {
+      const strongCount = Object.values(categories).filter(c => c.rating === "Strong").length;
+      const weakCount = Object.values(categories).filter(c => c.rating === "Weak").length;
+
+      let scoreText = "This prompt needs significant improvement.";
+      if (score >= 85) scoreText = "This is a strong prompt with only minor improvements needed.";
+      else if (score >= 65) scoreText = "This prompt is workable, but several refinements would improve the result.";
+      else if (score >= 45) scoreText = "This prompt has a usable foundation, but it still needs stronger structure.";
+
+      return {
+        short: scoreText,
+        long: `The prompt earned ${score}/100. It has ${strongCount} strong area${strongCount === 1 ? "" : "s"} and ${weakCount} weak area${weakCount === 1 ? "" : "s"}. Focus first on any weak categories because those are the most likely sources of poor AI output.`
+      };
+    }
+
+    /* ==========================================
+       Improved Prompt Generator
+    ========================================== */
+    function buildImprovedPrompt(originalPrompt, categories) {
+      const lines = [];
+
+      if (categories.roleAssignment.rating === "Weak") {
+        lines.push("Act as a knowledgeable and helpful subject-matter expert.");
+      }
+
+      lines.push("Task:");
+      lines.push(originalPrompt);
+
+      if (categories.specificity.rating !== "Strong") {
+        lines.push("");
+        lines.push("Context:");
+        lines.push("Include enough detail, relevant examples, and practical explanation to address the request fully.");
+      }
+
+      if (categories.constraints.rating !== "Strong") {
+        lines.push("");
+        lines.push("Constraints:");
+        lines.push("Keep the response focused, concise, and directly related to the task. Avoid unnecessary filler.");
+      }
+
+      if (categories.outputFormat.rating !== "Strong") {
+        lines.push("");
+        lines.push("Output Format:");
+        lines.push("Organize the response with clear headings and bullet points where appropriate.");
+      }
+
+      if (categories.clarity.rating !== "Strong") {
+        lines.push("");
+        lines.push("Goal:");
+        lines.push("Make sure the answer directly addresses the main request in clear language.");
+      }
+
+      return lines.join("\n");
+    }
+
+    /* ==========================================
+       Rendering
+    ========================================== */
+    function renderResults(analysis, originalPrompt) {
+      results.classList.add("show");
+
+      overallScore.textContent = analysis.score;
+      progressBar.style.width = Math.max(0, Math.min(analysis.score, 100)) + "%";
+      scoreSummary.textContent = analysis.summary.short;
+      summaryText.textContent = analysis.summary.long;
+      analysisTime.textContent = "Analyzed just now";
+
+      renderCategories(analysis.categories);
+      renderList(strengthsList, analysis.strengths, "No strong areas were detected yet.");
+      renderList(weaknessesList, analysis.weaknesses, "No major weak areas were detected.");
+      renderList(suggestionsList, analysis.suggestions, "No additional suggestions were generated.");
+      improvedPrompt.textContent = analysis.improvedPrompt;
+      copyStatus.textContent = "";
+
+      results.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderCategories(categories) {
+      categoryGrid.innerHTML = "";
+
+      Object.values(categories).forEach(category => {
+        const card = document.createElement("div");
+        card.className = "category-card";
+
+        const pillClass = category.rating.toLowerCase();
+
+        card.innerHTML = `
+          <h3>${escapeHtml(category.name)}</h3>
+          <span class="rating-pill ${pillClass}">${escapeHtml(category.rating)}</span>
+          <p>${escapeHtml(category.explanation)}</p>
+        `;
+
+        categoryGrid.appendChild(card);
+      });
+    }
+
+    function renderList(target, items, fallbackText) {
+      target.innerHTML = "";
+
+      if (!items.length) {
+        const li = document.createElement("li");
+        li.textContent = fallbackText;
+        target.appendChild(li);
+        return;
+      }
+
+      items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        target.appendChild(li);
+      });
+    }
+
+    /* ==========================================
+       Utilities
+    ========================================== */
+    function updateCharacterCount() {
+      const count = promptInput.value.length;
+      charCount.textContent = `${count} character${count === 1 ? "" : "s"}`;
+    }
+
+    function showStatus(message, type) {
+      statusMessage.textContent = message;
+      statusMessage.className = `status show ${type}`;
+    }
+
+    function uniqueList(items) {
+      return [...new Set(items.filter(Boolean))];
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    async function copyImprovedPrompt() {
+      const text = improvedPrompt.textContent.trim();
+
+      if (!results.classList.contains("show") || !text || text === "Your improved prompt will appear here after analysis.") {
+        copyStatus.textContent = "Analyze a prompt first.";
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        copyStatus.textContent = "Copied.";
+      } catch (error) {
+        copyStatus.textContent = "Copy failed. You can still select the text manually.";
+      }
+    }
+  </script>
+</body>
+</html>

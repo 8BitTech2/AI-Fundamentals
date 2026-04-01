@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Prompt Quality Analyzer</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d1d5db;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --good-bg: #ecfdf5;
+      --good-text: #065f46;
+      --warn-bg: #fffbeb;
+      --warn-text: #92400e;
+      --weak-bg: #fef2f2;
+      --weak-text: #991b1b;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px 40px;
+    }
+
+    .app-card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      resize: vertical;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 1rem;
+      line-height: 1.5;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      background: #fff;
+    }
+
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .controls,
+    .secondary-controls {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    button:hover { background: var(--accent-dark); }
+    button:active { transform: translateY(1px); }
+
+    button.secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    button.secondary:hover {
+      background: #d1d5db;
+    }
+
+    .helper-text {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .results {
+      margin-top: 28px;
+      display: none;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 24px;
+    }
+
+    .results.show { display: block; }
+
+    .section-title {
+      margin: 0 0 16px;
+      font-size: 1.4rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .score-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      background: #fafafa;
+    }
+
+    .score-card h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .rating {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .rating.strong { background: var(--good-bg); color: var(--good-text); }
+    .rating.moderate { background: var(--warn-bg); color: var(--warn-text); }
+    .rating.weak { background: var(--weak-bg); color: var(--weak-text); }
+
+    .score-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .feedback-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .feedback-box {
+      border: 1px solid var(--border);
+      background: #fafafa;
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .feedback-box h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+    }
+
+    .feedback-box ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .feedback-box li + li { margin-top: 8px; }
+
+    .improved-prompt {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 18px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.96rem;
+      border: 1px solid #1e293b;
+    }
+
+    .copy-status {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    .empty-state {
+      color: #b91c1c;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-card">
+      <h1>AI Prompt Quality Analyzer</h1>
+      <p class="subtitle">Analyze a prompt, review structured feedback, and generate a stronger version for better AI results.</p>
+
+      <label for="promptInput">Enter your prompt</label>
+      <textarea id="promptInput" placeholder="Example: Explain zero trust security for first-year cybersecurity students in a short bulleted list."></textarea>
+
+      <div class="controls">
+        <button id="analyzeBtn">Analyze Prompt</button>
+        <span class="helper-text">Rule-based analysis using plain JavaScript</span>
+      </div>
+
+      <section id="results" class="results">
+        <h2 class="section-title">Analysis Results</h2>
+        <div id="evaluationGrid" class="grid"></div>
+
+        <div class="feedback-layout">
+          <div class="feedback-box">
+            <h3>What works</h3>
+            <ul id="strengthsList"></ul>
+          </div>
+
+          <div class="feedback-box">
+            <h3>What is missing or weak</h3>
+            <ul id="weaknessesList"></ul>
+          </div>
+
+          <div class="feedback-box">
+            <h3>Suggestions for improvement</h3>
+            <ul id="suggestionsList"></ul>
+          </div>
+        </div>
+
+        <div class="feedback-box">
+          <h3>Improved Prompt</h3>
+          <div id="improvedPrompt" class="improved-prompt"></div>
+          <div class="secondary-controls">
+            <button id="copyBtn" class="secondary" type="button">Copy Improved Prompt</button>
+            <span id="copyStatus" class="copy-status">Nothing copied yet.</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const promptInput = document.getElementById("promptInput");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const copyStatus = document.getElementById("copyStatus");
+    const results = document.getElementById("results");
+    const evaluationGrid = document.getElementById("evaluationGrid");
+    const strengthsList = document.getElementById("strengthsList");
+    const weaknessesList = document.getElementById("weaknessesList");
+    const suggestionsList = document.getElementById("suggestionsList");
+    const improvedPrompt = document.getElementById("improvedPrompt");
+
+    analyzeBtn.addEventListener("click", () => {
+      const promptText = promptInput.value.trim();
+
+      if (!promptText) {
+        showEmptyMessage();
+        return;
+      }
+
+      const analysis = analyzePrompt(promptText);
+      renderResults(analysis);
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      const text = improvedPrompt.textContent.trim();
+
+      if (!text || text === "Improved prompt will appear here after analysis.") {
+        copyStatus.textContent = "Run an analysis first, then copy the improved prompt.";
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        copyStatus.textContent = "Improved prompt copied to clipboard.";
+      } catch (error) {
+        copyStatus.textContent = "Copy failed in this browser. Please select and copy the text manually.";
+      }
+    });
+
+    function analyzePrompt(prompt) {
+      const lower = prompt.toLowerCase();
+      const wordCount = prompt.split(/\s+/).filter(Boolean).length;
+
+      const categoryResults = {
+        clarity: evaluateClarity(prompt, wordCount),
+        specificity: evaluateSpecificity(lower, wordCount),
+        roleAssignment: evaluateRoleAssignment(lower),
+        constraints: evaluateConstraints(lower),
+        outputFormat: evaluateOutputFormat(lower)
+      };
+
+      const strengths = [];
+      const weaknesses = [];
+      const suggestions = [];
+
+      for (const result of Object.values(categoryResults)) {
+        if (result.rating === "Strong") {
+          strengths.push(result.positive);
+        } else {
+          weaknesses.push(result.negative);
+          suggestions.push(result.suggestion);
+        }
+      }
+
+      if (wordCount >= 20) {
+        strengths.push("The prompt includes enough text to support a more useful AI response.");
+      } else {
+        weaknesses.push("The prompt is very short, which limits context and reduces response accuracy.");
+        suggestions.push("Add more context about the goal, audience, topic, or expected depth.");
+      }
+
+      return {
+        categoryResults,
+        strengths: uniqueList(strengths),
+        weaknesses: uniqueList(weaknesses),
+        suggestions: uniqueList(suggestions),
+        improvedPrompt: buildImprovedPrompt(prompt, categoryResults)
+      };
+    }
+
+    function evaluateClarity(prompt, wordCount) {
+      const hasQuestionMark = prompt.includes("?");
+      const hasActionVerb = /\b(write|create|summarize|analyze|explain|compare|generate|list|draft|design|outline|describe)\b/i.test(prompt);
+      const longEnough = wordCount >= 8;
+
+      let score = 0;
+      if (hasQuestionMark) score++;
+      if (hasActionVerb) score++;
+      if (longEnough) score++;
+
+      return buildCategoryResult(
+        "Clarity",
+        score,
+        "The prompt communicates a clear task or direction.",
+        "The prompt does not clearly explain what the AI should do.",
+        "State the exact task using direct action language such as explain, summarize, compare, or create.",
+        "The prompt has some recognizable intent, but the goal could be clearer."
+      );
+    }
+
+    function evaluateSpecificity(lower, wordCount) {
+      const detailKeywords = [
+        "about", "for", "because", "using", "based on", "include", "focus on",
+        "audience", "context", "examples", "steps", "details", "beginner", "student"
+      ];
+
+      let detailHits = 0;
+      detailKeywords.forEach(keyword => {
+        if (lower.includes(keyword)) detailHits++;
+      });
+
+      let score = 0;
+      if (wordCount >= 12) score++;
+      if (detailHits >= 2) score++;
+      if (/\bexample|steps|details|specific|context|audience\b/.test(lower)) score++;
+
+      return buildCategoryResult(
+        "Specificity",
+        score,
+        "The prompt includes useful detail that helps narrow the response.",
+        "The prompt is too broad and lacks enough context or detail.",
+        "Add topic details, audience, goals, or examples so the AI knows exactly what to focus on.",
+        "The prompt has some detail, but it still leaves room for guesswork."
+      );
+    }
+
+    function evaluateRoleAssignment(lower) {
+      const explicitRolePatterns = [
+        /\byou are a\b/, /\byou are an\b/, /\bact as a\b/, /\bact as an\b/,
+        /\bassume the role of\b/, /\bpretend you are a\b/, /\bpretend you are an\b/
+      ];
+      const roleWords = /\b(teacher|tutor|consultant|coach|editor|developer|marketer|analyst|professor|assistant|cybersecurity expert|project manager|writer)\b/;
+
+      const hasExplicitRole = explicitRolePatterns.some(pattern => pattern.test(lower));
+      const hasRoleWord = roleWords.test(lower);
+
+      let score = 0;
+      if (hasExplicitRole && hasRoleWord) score = 3;
+      else if (hasExplicitRole || hasRoleWord) score = 1;
+
+      return buildCategoryResult(
+        "Role Assignment",
+        score,
+        "The prompt assigns a role or perspective to guide the response.",
+        "The prompt does not assign a clear role or perspective.",
+        "Add a role such as 'You are a teacher' or 'Act as a cybersecurity consultant' to improve relevance.",
+        "The prompt hints at a role, but it could be more explicit."
+      );
+    }
+
+    function evaluateConstraints(lower) {
+      const constraintKeywords = [
+        "limit", "maximum", "minimum", "only", "must", "do not", "don't",
+        "within", "under", "at least", "no more than", "avoid", "exactly",
+        "word count", "keep it", "length", "tone"
+      ];
+
+      let hits = 0;
+      constraintKeywords.forEach(keyword => {
+        if (lower.includes(keyword)) hits++;
+      });
+
+      let score = 0;
+      if (hits >= 2) score = 3;
+      else if (hits === 1) score = 2;
+
+      return buildCategoryResult(
+        "Constraints",
+        score,
+        "The prompt includes limits or requirements that help control the output.",
+        "The prompt does not provide clear constraints or boundaries.",
+        "Add boundaries such as length, tone, exclusions, scope, or required elements.",
+        "The prompt includes some constraints, but they could be more complete."
+      );
+    }
+
+    function evaluateOutputFormat(lower) {
+      const explicitFormatPatterns = [
+        /\bin a table\b/, /\bas a table\b/, /\bin bullet points\b/, /\bas bullet points\b/,
+        /\bin a list\b/, /\bas a list\b/, /\bin json\b/, /\bas json\b/,
+        /\buse headings\b/, /\buse sections\b/, /\bformat the response\b/,
+        /\breturn the answer in\b/, /\bpresent the response in\b/, /\bnumbered list\b/
+      ];
+
+      const hasExplicitFormat = explicitFormatPatterns.some(pattern => pattern.test(lower));
+      const hasLightFormatSignal = /\b(table|bullet points|json|markdown|headings|sections|paragraphs|numbered list)\b/.test(lower);
+
+      let score = 0;
+      if (hasExplicitFormat) score = 3;
+      else if (hasLightFormatSignal) score = 1;
+
+      return buildCategoryResult(
+        "Output Format",
+        score,
+        "The prompt clearly tells the AI how to structure the response.",
+        "The prompt does not specify the desired output format.",
+        "State the preferred format such as bullet points, numbered steps, short paragraphs, or a table.",
+        "The prompt gives some output structure, but it could be more specific."
+      );
+    }
+
+    function buildCategoryResult(name, score, positive, negative, suggestion, moderateNote) {
+      let rating = "Weak";
+      if (score >= 3) rating = "Strong";
+      else if (score >= 1) rating = "Moderate";
+
+      return { name, rating, positive, negative, suggestion, moderateNote };
+    }
+
+    function buildImprovedPrompt(originalPrompt, categoryResults) {
+      const roleLine = categoryResults.roleAssignment.rating === "Strong"
+        ? ""
+        : "Role: You are a knowledgeable assistant who explains ideas clearly for a beginner audience.";
+
+      const contextLine = categoryResults.specificity.rating === "Strong"
+        ? ""
+        : "Context: Include the topic background, intended audience, and the main outcome the user wants.";
+
+      const constraintsLine = categoryResults.constraints.rating === "Strong"
+        ? ""
+        : "Constraints: Keep the response concise, relevant, and free of unnecessary filler. Use plain language unless technical detail is requested.";
+
+      const formatLine = categoryResults.outputFormat.rating === "Strong"
+        ? ""
+        : "Output Format: Organize the response with headings and bullet points so it is easy to scan.";
+
+      const clarityLine = categoryResults.clarity.rating === "Strong"
+        ? ""
+        : "Task: Make sure the response directly answers the user’s request with a clear objective.";
+
+      const sections = [
+        roleLine,
+        "Original Request: " + originalPrompt,
+        contextLine,
+        constraintsLine,
+        formatLine,
+        clarityLine
+      ].filter(Boolean);
+
+      return sections.join("\n\n");
+    }
+
+    function renderResults(analysis) {
+      results.classList.add("show");
+      renderCategoryCards(analysis.categoryResults);
+      renderList(strengthsList, analysis.strengths);
+      renderList(weaknessesList, analysis.weaknesses);
+      renderList(suggestionsList, analysis.suggestions);
+      improvedPrompt.textContent = analysis.improvedPrompt;
+      copyStatus.textContent = "Nothing copied yet.";
+    }
+
+    function renderCategoryCards(categoryResults) {
+      evaluationGrid.innerHTML = "";
+      Object.values(categoryResults).forEach(result => {
+        const card = document.createElement("div");
+        card.className = "score-card";
+        const ratingClass = result.rating.toLowerCase();
+        card.innerHTML = `
+          <h3>${escapeHtml(result.name)}</h3>
+          <div class="rating ${ratingClass}">${escapeHtml(result.rating)}</div>
+          <p class="score-note">${escapeHtml(getRatingMessage(result))}</p>
+        `;
+        evaluationGrid.appendChild(card);
+      });
+    }
+
+    function getRatingMessage(result) {
+      if (result.rating === "Strong") return result.positive;
+      if (result.rating === "Moderate") return result.moderateNote;
+      return result.negative;
+    }
+
+    function renderList(target, items) {
+      target.innerHTML = "";
+      if (!items.length) {
+        const li = document.createElement("li");
+        li.textContent = "No items available.";
+        target.appendChild(li);
+        return;
+      }
+      items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        target.appendChild(li);
+      });
+    }
+
+    function showEmptyMessage() {
+      results.classList.add("show");
+      evaluationGrid.innerHTML = "";
+      strengthsList.innerHTML = '<li class="empty-state">Please enter a prompt before running the analysis.</li>';
+      weaknessesList.innerHTML = '<li>No analysis yet.</li>';
+      suggestionsList.innerHTML = '<li>Add a prompt in the textarea and click "Analyze Prompt".</li>';
+      improvedPrompt.textContent = "Improved prompt will appear here after analysis.";
+      copyStatus.textContent = "Nothing copied yet.";
+    }
+
+    function uniqueList(items) {
+      return [...new Set(items.filter(Boolean))];
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+  </script>
+</body>
+</html>
