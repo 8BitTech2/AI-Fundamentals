@@ -121,3 +121,143 @@ Assumptions
 Users have basic understanding of prompts
 Internet access is available (if using API)
 Simpler logic is acceptable for MVP
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+
+## **AI Prompt Quality Analyzer (MVP)**
+
+---
+
+## **1. Project Overview**
+
+The AI Prompt Quality Analyzer is a web-based tool that evaluates user-written prompts and provides structured feedback to improve their effectiveness. It helps users understand how to write better prompts for AI systems.
+
+This tool is designed for students and beginner AI users. It solves the problem of weak AI responses caused by vague, incomplete, or poorly structured prompts.
+
+---
+
+## **2. Core Features (MVP Scope)**
+
+### **Feature 1: Prompt Evaluation**
+
+* **Description:**
+  The user submits a prompt, and the system evaluates it based on key criteria such as clarity, specificity, role definition, constraints, and output format.
+
+* **Why this feature matters:**
+  Most users do not understand why their prompts fail. This feature provides insight into prompt quality.
+
+* **Success Criteria:**
+
+  * The system returns feedback on at least 3 criteria
+  * Feedback identifies strengths and weaknesses
+  * User can understand what needs improvement
+
+---
+
+### **Feature 2: Feedback Explanation**
+
+* **Description:**
+  The system explains what is missing or unclear in the prompt and provides suggestions for improvement.
+
+* **Why this feature matters:**
+  Users need explanations, not just corrections, to learn prompt engineering.
+
+* **Success Criteria:**
+
+  * Feedback includes actionable suggestions
+  * Explanations are clear and easy to read
+  * User can revise their prompt based on feedback
+
+---
+
+### **Feature 3: Improved Prompt Generator**
+
+* **Description:**
+  The system generates a refined version of the user’s prompt using best practices.
+
+* **Why this feature matters:**
+  Demonstrates how a better prompt should look in practice.
+
+* **Success Criteria:**
+
+  * Improved prompt is more detailed than the original
+  * Includes role, constraints, or formatting improvements
+  * User can compare original vs improved version
+
+---
+
+## **3. User Experience**
+
+### **Initial View**
+
+The user sees:
+
+* A title: *AI Prompt Quality Analyzer*
+* A text input box
+* A button labeled “Analyze Prompt”
+
+---
+
+### **User Actions**
+
+* User enters a prompt
+* User clicks the analyze button
+
+---
+
+### **System Response**
+
+* The page displays:
+
+  * Feedback on prompt quality
+  * Suggestions for improvement
+  * A revised (improved) prompt
+
+---
+
+### **Interaction Flow**
+
+* User reads feedback
+* User updates their prompt
+* User re-analyzes for improvement
+
+---
+
+## **4. Technical Constraints**
+
+* Must be a **Single Page Application (SPA)**
+* Built using:
+
+  * HTML
+  * CSS
+  * JavaScript
+* Must run entirely in a web browser
+* No server-side code required
+* Optional: Use AI API (ChatGPT or Gemini) or simple rule-based logic
+
+---
+
+## **5. Out of Scope (Future Features)**
+
+The following features will NOT be included in this MVP:
+
+* User login or accounts
+* Saving prompt history
+* Advanced scoring systems
+* Mobile app version
+* API key management
+* Multi-language support
+* Gamification (points, badges)
+
+---
+
+## ✅ **Summary**
+
+This MVP focuses on a single goal: helping users understand and improve their prompts through structured feedback and examples. It keeps the scope small, functional, and achievable within the assignment timeframe.
+
+---
+
+
+
+
