@@ -1,0 +1,25 @@
+# AI Prompt Quality Analyzer
+
+## Project Overview
+This project explores how prompt design impacts AI output quality. It demonstrates how structured prompts improve clarity, accuracy, and usefulness of AI-generated responses.
+
+## Objective
+To analyze and improve prompt engineering skills by:
+- Comparing weak vs strong prompts
+- Iterating on prompt design
+- Evaluating AI responses
+
+## Tools Used
+- ChatGPT
+- Google Gemini
+
+## Key Concept
+AI performs best when tasks are clearly defined and constrained. Poor prompts lead to vague or incorrect outputs.
+
+## Core Features
+- Prompt breakdown analysis
+- Prompt refinement suggestions
+- Demonstration of prompt engineering principles
+
+## Learning Outcome
+This project demonstrates how structured prompting improves AI performance and aligns with real-world applications.
