@@ -29,19 +29,6 @@ This project analyzes and compares prompts to show how improvements in structure
 
 ---
 
-## 🚧 How far did you get?
-
-**Current Status: ~80% Complete (Strong Prototype)**
-
-- ✅ Prompt analysis framework developed  
-- ✅ Iterative improvements documented  
-- ✅ Real AI outputs captured and analyzed  
-- ❌ Fully automated analyzer tool not yet implemented  
-
-The project successfully demonstrates the **core logic and methodology**, with clear potential for expansion into a working application.
-
----
-
 ## 🤖 AI Tools Used
 
 - 🟢 ChatGPT  
@@ -93,24 +80,31 @@ Fayetteville Technical Community College (FTCC)
 
 ---
 
+## 🌐 Live Demo
+
+🚀 **Try the interactive demo here:**  
+👉 https://chatgpt.com/g/g-699e0c7000c48191be3d341ca2400dd4-boomerbot-h2-2
+
+### What the Demo Shows:
+- A working **AI persona (BoomerBot)** designed to teach prompt engineering  
+- Real-time **prompt analysis and feedback**  
+- Examples of **prompt refinement and iteration**  
+- Demonstration of how structured prompts improve AI responses  
+
+---
+
+## 🚧 How far did you get?
+
+**Current Status: ~80% Complete (Strong Prototype)**
+
+- ✅ Prompt analysis framework developed  
+- ✅ Iterative improvements documented  
+- ✅ Real AI outputs captured and analyzed  
+- ❌ Fully automated analyzer tool not yet implemented  
+
+The project successfully demonstrates the **core logic and methodology**, with clear potential for expansion into a working application.
+
+---
 ## ⭐ Final Thought
 
 > The difference between average AI output and exceptional output is not the model — it's the prompt.
-
-## 🌐 Live Demo
-
-**Demo Status:** In development
-
-A full live version of the analyzer was not completed, but this repository includes the project materials, prompt iterations, and output examples that demonstrate how the concept works.
-
-### Planned Demo Features:
-- Prompt quality scoring
-- Suggestions for improving weak prompts
-- Examples of refined prompt versions
-- Side-by-side comparison of outputs
-
-### Demo Link:
-[https://chatgpt.com/g/g-699e0c7000c48191be3d341ca2400dd4-boomerbot-h2-2](#)
-
-```text
-https://chatgpt.com/g/g-699e0c7000c48191be3d341ca2400dd4-boomerbot-h2-2
